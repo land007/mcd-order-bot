@@ -7,18 +7,44 @@ services:
   #   ports:
   #     - 8000:8000
   recognizers-service:
-    image: xanthoustech/recognizers-service:latest
     restart: always
+    networks:
+      - internal_network
+    container_name: recognizers-service
+    # image: xanthoustech/recognizers-service:latest
+    image: land007/recognizers-service:latest
     ports:
       - 7000:7000
+#http://localhost:7000/swagger-ui
+#https://localhost:7000/redoc
+#sudo docker rm -f rasa-chinese-service; sudo docker run -it -v ~/rasa-chinese-service/cache:/tmp/cache --name rasa-chinese-service -p 8081:8000 xanthoustech/rasa-chinese-service:latest hfl/chinese-bert-wwm-ext
   rasa-chinese-service:
-    # build: .
-    image: xanthoustech/rasa-chinese-service:latest
+    restart: always
+    networks:
+      - internal_network
+    container_name: rasa-chinese-service
+    # image: xanthoustech/rasa-chinese-service:latest
+    image: land007/rasa-chinese-service:latest
     ports:
-      - 8001:8000
+      - 8000:8000
     volumes:
       - bert-cache:/tmp/cache
     command: hfl/chinese-bert-wwm-ext
+#http://127.0.0.1:8000/?q=%E6%9D%A5%E4%B8%80%E4%B8%AA%E9%BA%A6%E9%A6%99%E9%B1%BC
+#docker rm -f mcd-order-bot && docker run --rm -it -p 6081:6080 -p 5002:5002 -p 5006:5005 -p 5056:5055 -p 8002:8002 -e PASSWORD=1 -e SUDO=yes --name mcd-order-bot land007/mcd-order-bot:latest 
+  mcd-order-bot:
+    restart: always
+    networks:
+      - internal_network
+    container_name: mcd-order-bot
+    # build: .
+    image: land007/mcd-order-bot:latest
+    ports:
+      - 6080:6080
+      - 5002:5002
+      - 5005:5005
+      - 5055:5055
+      - 8002:8002
 
 volumes:
   bert-cache:
