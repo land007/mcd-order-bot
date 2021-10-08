@@ -16,3 +16,7 @@ USER 1001
 
 #docker rm -f mcd-order-bot && docker run --rm -it -p 6081:6080 -p 5002:5002 -p 5006:5005 -p 5056:5055 -p 8002:8002 -e PASSWORD=1 -e SUDO=yes --name mcd-order-bot land007/mcd-order-bot:latest 
 #docker exec -it mcd-order-bot bash
+
+#add data/
+#add config.yml
+#add domain.yml
