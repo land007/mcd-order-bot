@@ -3,11 +3,16 @@ FROM rasa/rasa:latest-full
 USER root
 RUN pip install rasa_chinese
 RUN pip install transformers[torch]
+ADD nlu /app/nlu
 USER 1001
 
 #docker build -t land007/rasa:latest-full .
 #docker run --rm --name rasa_train -it -v /mnt/docker/mcd-order-bot:/app land007/rasa:latest-full train --domain domain.yml --data data --out models
 #docker run --rm --name rasa -it -e "ACTION_ENDPOINT=http://localhost:5055/webhook" -v /mnt/docker/mcd-order-bot:/app land007/rasa:latest-full shell
+
+#docker run --rm --name rasa_train -it -v /mnt/docker/rasa:/app land007/rasa:latest-full train --domain domain.yml --data data --out models
+#docker run --rm --name rasa -it -e "ACTION_ENDPOINT=http://localhost:5055/webhook" -v /mnt/docker/rasa:/app land007/rasa:latest-full shell
+
 
 #docker rm -f mcd-order-bot && docker run --rm -it -p 6081:6080 -p 5002:5002 -p 5006:5005 -p 5056:5055 -p 8002:8002 -e PASSWORD=1 -e SUDO=yes --name mcd-order-bot land007/mcd-order-bot:latest 
 #docker exec -it mcd-order-bot bash
